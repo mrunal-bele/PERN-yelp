@@ -1,5 +1,5 @@
 require("dotenv").config();
-import { Pool, Client } from 'pg';
+const { Pool, Client } =  require('pg');
 
 const devConfig = {
     user: process.env.PG_USER,
@@ -13,6 +13,6 @@ const proConfig = {
     connectionString: process.env.DATABASE_URL
 }
 const pool = new Pool(process.env.NODE_ENV === "production" ? proConfig : devConfig);
-
-
-export function query(text, params) { return pool.query(text, params); }
+module.exports = {
+    query: (text,params) => pool.query(text,params),
+}
