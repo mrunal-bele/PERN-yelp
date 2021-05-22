@@ -8,10 +8,12 @@ const devConfig = {
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT
 }
-const pool = new Pool(devConfig);
+
 const proConfig = {
     connectionString: process.env.DATABASE_URL
 }
+const pool = new Pool(process.env.NODE_ENV === "production" ? proConfig : devConfig);
+
 
 module.exports = {
     query: (text,params) => pool.query(text,params),
