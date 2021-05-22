@@ -3,9 +3,13 @@ const express = require('express');
 const app = express();
 const db = require("./db");
 const cors  = require('cors')
-
+const path = require('path')
 app.use(express.json());
 app.use(cors());
+
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "client/build")))
+}
 
 app.get("/api/v1/restaurants", async (req,res)=>{
 
@@ -79,7 +83,7 @@ app.delete('/api/v1/restaurants/:id', async (req, res) => {
     });
 });
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
